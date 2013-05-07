@@ -1,4 +1,4 @@
 jsIoC
 =====
 
-Simple IoC container for JavaScript (ver 0.2)
+Simple IoC container for JavaScript (ver 0.21)
