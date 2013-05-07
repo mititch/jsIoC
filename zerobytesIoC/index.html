@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+  <h1>jsIoC work</h1>
+
+	</body>
+
+	<script src='ctors.js'></script>
+	<script type='text/javascript'>
+
+	    window.onload = function() {
+
+	        var cont = {
+	            'interfaceA': CtorA,
+	            'interfaceB': CtorB,
+	        };
+
+	        var objA = 'interfaceA';
+	        objA = new cont[objA](cont);
+
+	        objA.doA();
+	    };
+	    
+</script>
+
+</html>
