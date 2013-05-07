@@ -1,29 +1,36 @@
-function Container() {
+var JSIOC = (function (jsioc){
 
-        var _self = this;
-        _self._krnl = {};
-        
-        this.Instance = {};
-
-        this.Config = function (config){
-
-                this.Instance = config;
-        }
-
-        this.Persistent = function (ctor){
+        jsioc.Container = function() {
                 
-                return function (cont) {
-                        return new ctor(cont);
+                var _self = this;
+                _self._krnl = {};
+
+                this.Instance = {};
+
+                this.Configure = function (config){
+
+                        this.Instance = config;
+                }
+
+                this.Transient = function (ctor){
+                        
+                        return function (cont) {
+
+                                return new ctor(cont);
+                        }
+                }
+
+                this.Singleton = function (ctor){
+                        
+                        return function (cont) {                        
+                                
+                                _self._krnl[ctor.interface] || (_self._krnl[ctor.interface] = new ctor(cont));
+
+                                return _self._krnl[ctor.interface];
+                        };
                 }
         }
 
-        this.Singleton = function (ctor){
-                
-                return function (cont) {                        
-                        if (!_self._krnl[ctor.interface]) {
-                                _self._krnl[ctor.interface] = new ctor(cont)
-                        }
-                        return _self._krnl[ctor.interface];
-                };
-        }
-}
+        return jsioc;
+
+}(JSIOC || {}));
