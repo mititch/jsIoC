@@ -6,18 +6,22 @@
 
 </body>
 
+<script src="jsioc.js"></script>
 <script src="ctors.js"></script>
 <script type="text/javascript">
 
     window.onload = function() {
 
-        var cont = {
-            'interfaceA': CtorA,
-            'interfaceB': CtorB,
+        var cont = new Container();
+        config = {   
+            'interfaceA': cont.Persistent(CtorA),
+            'interfaceB': cont.Singleton(CtorB),
         };
+        cont.Config(config);
 
-        var objA = 'interfaceA';
-        objA = new cont[objA](cont);
+        var objA = 'interfaceA',
+
+        objA = cont.Instance[objA](cont);
 
         objA.doA();
     };
