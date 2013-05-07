@@ -1,7 +1,6 @@
 function CtorA (cont) {
     
     this.objB = 'interfaceB';
-    
     this.objB = cont.Instance[this.objB](cont);
 
     this.doA = function () {
