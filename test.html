@@ -24,12 +24,10 @@
         };
         FakeCtorB.interface = "interfaceB";
         
-        var testCont = new Container();
-        var testConfig = {
+        var testCont = new JSIOC.Container();
+        testCont.Configure({
             'interfaceB': testCont.Singleton(FakeCtorB)
-        };
-        testCont.Config(testConfig);
-
+        });
         
         var objA1 = new CtorA(testCont),
             objA2 = new CtorA(testCont);
