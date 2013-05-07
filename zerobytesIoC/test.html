@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>jsIoC test</h1>
+        <p>Open the browser console to see results</p>
+    </body>
+
+    <script src="ctors.js"></script>
+    <script type="text/javascript">
+
+        function FakeCtorB (cont) {
+            this.doB = function() {
+                console.log('        passed');
+            };
+        };
+
+        window.onload = function() {
+
+            var testCont = {
+                'interfaceB': FakeCtorB,
+            };
+
+            var objA = new CtorA(testCont);
+
+            console.log('Expect: call doA() make call to doB() :');
+            objA.doA();
+        };
+        
+    </script>
+
+</html>
