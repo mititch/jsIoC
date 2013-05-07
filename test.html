@@ -23,15 +23,33 @@
             };
         };
         FakeCtorB.interface = "interfaceB";
+
+        function CtorC (cont) {
+            this.doC = function() {
+                return 'C';
+            };
+        };
+        CtorC.interface = 'interfaceC';
+
+        function CtorD (cont) {
+            this.prop = {};
+        };
+        CtorD.interface = 'interfaceD';
+
         
         var testCont = new JSIOC.Container();
         testCont.Configure({
-            'interfaceB': testCont.Singleton(FakeCtorB)
+            'interfaceB': testCont.Singleton(FakeCtorB),
+            'interfaceC': testCont.Singleton(CtorC),
+            'interfaceD': testCont.Transient(CtorD)
         });
         
         var objA1 = new CtorA(testCont),
-            objA2 = new CtorA(testCont);
+            objC = 'interfaceC';
+        objC = testCont.Instance[objC](testCont);
+        var objA2 = new CtorA(testCont),
             objA3 = new CtorA(testCont);
+        
         
         objA1.doA();
         
@@ -42,6 +60,17 @@
 
         console.log('Expect: interfaceB registered as singleton -> ' + (objA1.objB.i == 3));
         
+        console.log('Expect: interfaceC registered as other singleton -> ' + (objC.doC() == 'C'));
+
+        var objD1 = 'interfaceD',
+            objD2 = 'interfaceD';
+        objD1 = testCont.Instance[objD1](testCont);
+        objD2 = testCont.Instance[objD2](testCont);
+        objD1.prop = 1;
+        objD2.prop = 2;
+
+        console.log('Expect: interfaceD registered as transient -> ' + (objD1.prop != objD2.prop));
+
     };
     
 </script>
