@@ -12,15 +12,13 @@
 
     window.onload = function() {
 
-        var cont = new Container();
-        config = {   
-            'interfaceA': cont.Persistent(CtorA),
+        var cont = new JSIOC.Container();
+        cont.Configure({   
+            'interfaceA': cont.Transient(CtorA),
             'interfaceB': cont.Singleton(CtorB),
-        };
-        cont.Config(config);
+        });
 
         var objA = 'interfaceA',
-
         objA = cont.Instance[objA](cont);
 
         objA.doA();
