@@ -1,11 +1,6 @@
 var JSIOC = (function (jsioc){
 
         jsioc.Container = function() {
-                
-                var _self = this;
-                _self._krnl = {};
-
-                this.Instance = {};
 
                 this.Configure = function (config){
 
@@ -24,9 +19,12 @@ var JSIOC = (function (jsioc){
                         
                         return function (cont) {                        
                                 
-                                _self._krnl[ctor.interface] || (_self._krnl[ctor.interface] = new ctor(cont));
+                                var sngl = new ctor(cont);
 
-                                return _self._krnl[ctor.interface];
+                                this[ctor.interface] = function () {return sngl;} 
+
+                                return sngl;
+
                         };
                 }
         }
