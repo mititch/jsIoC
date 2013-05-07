@@ -7,26 +7,43 @@
 
 </body>
 
+<script src="jsioc.js"></script>
 <script src="ctors.js"></script>
 <script type="text/javascript">
 
-    function FakeCtorB (cont) {
-        this.doB = function() {
-            console.log('        passed');
-        };
-    };
-    FakeCtorB.prototype.interface = "interfaceB";
-
     window.onload = function() {
-        
-        var testCont = {
-            'interfaceB': FakeCtorB,
-        };
 
-        var objA = new CtorA(testCont);
+        var trigger = false;
+
+        function FakeCtorB (cont) {
+            this.i = 0; 
+            trigger = true;
+            this.doB = function() {
+                this.i++;
+            };
+        };
+        FakeCtorB.interface = "interfaceB";
         
-        console.log('Expect: call doA() make call to doB() :');
-        objA.doA();
+        var testCont = new Container();
+        var testConfig = {
+            'interfaceB': testCont.Singleton(FakeCtorB)
+        };
+        testCont.Config(testConfig);
+
+        
+        var objA1 = new CtorA(testCont),
+            objA2 = new CtorA(testCont);
+            objA3 = new CtorA(testCont);
+        
+        objA1.doA();
+        
+        console.log('Expect: call doA() make call to doB() -> ' + trigger);
+
+        objA2.doA();
+        objA3.doA();
+
+        console.log('Expect: interfaceB registered as singleton -> ' + (objA1.objB.i == 3));
+        
     };
     
 </script>
