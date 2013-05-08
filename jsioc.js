@@ -17,14 +17,11 @@ var JSIOC = (function (jsioc){
 
                 this.Singleton = function (ctor){
                         
-                        return function (cont) {                        
+                        return function Creator(cont) {                        
                                 
-                                var sngl = new ctor(cont);
+                                Creator.sngl || (Creator.sngl = new ctor(cont));
 
-                                this[ctor.interface] = function () {return sngl;} 
-
-                                return sngl;
-
+                                return Creator.sngl;
                         };
                 }
         }
