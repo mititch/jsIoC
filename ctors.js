@@ -7,7 +7,6 @@ function CtorA (cont) {
         this.objB.doB();
     };
 }
-CtorA.interface = 'interfaceA';
     
 function CtorB(cont) {
     
@@ -15,4 +14,3 @@ function CtorB(cont) {
         alert('I am B!');
     };
 }
-CtorB.interface = 'interfaceB';
