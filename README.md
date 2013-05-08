@@ -5,39 +5,50 @@ IoC container for JavaScript
 
 How to use:
 
-1. Load library
+* Load library
 
-<script src='jsioc.min.js'></script>
+```js
+<script src='jsioc.min.js'/>
+```
 
-2. Add constructors of your objects
+* Add constructors of your objects
 
+```js
 function ConstructorA(cont) {
-	//some action
+	//object definition
 }
 
 function ConstractorB(cont) {
-	//some action
+	//object definition
 }
+```
 
-3. Instantiate container
+* Instantiate container
 
+```js
 var cont = new JSIOC.Container();
+```
 
-4. Configure container with dependencies and lifestyles
+* Configure container with dependencies and lifestyles
 
+```js
 cont.Configure({   
             'interfaceA': cont.Transient(ConstructorA),
             'interfaceB': cont.Singleton(ConstructorB),
         });
+```
         
-5. Now you can instantiate object in code
+* Now you can instantiate object in code
 
+```js
 var objectA = cont.Instance['interfaceA'](cont);
+```
 
-6. And inside other constructors
+* And inside other constructors
 
+```js
 function ConstractorB(cont) {
         
         this.propertyA = cont.Instance['interfaceA'](cont);
 }
-
+```
