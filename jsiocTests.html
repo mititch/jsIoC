@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>jsIoC test</h1>
+<p>Open the browser console to see results</p>
+
+</body>
+
+<script src='jsioc.js'></script>
+<script type='text/javascript'>
+
+    window.onload = function() {
+
+        function TestCtorA (cont) {
+            
+            this.propB = 'interfaceB';
+            this.propA = {};
+
+            this.propB = cont.Instance[this.propB](cont);
+
+            this.doA = function () {
+                this.propB.doB();
+            };
+        }
+
+        function TestCtorB (cont) {
+            this.i = 0; 
+            trigger = true;
+            this.doB = function() {
+                this.i++;
+            };
+        };
+
+        function TestCtorC (cont) {
+        };
+
+        var testCont = new JSIOC.Container();
+        testCont.Configure({
+            'interfaceA': testCont.Transient(TestCtorA),
+            'interfaceB': testCont.Singleton(TestCtorB),
+            'interfaceC': testCont.Singleton(TestCtorC)
+        });
+        
+        var objA1 = 'interfaceA',
+            objA2 = 'interfaceA',
+            objA3 = 'interfaceA',
+            objC = 'interfaceC';
+        
+        objA1 = testCont.Instance[objA1](testCont);
+        objC = testCont.Instance[objC](testCont);
+        objA2 = testCont.Instance[objA2](testCont);
+        objA3 = testCont.Instance[objA3](testCont);
+
+        console.log('Expect: interfaceA is instanciated -> ' + (objA1 instanceof TestCtorA));
+
+        objA1.propA = 1;
+        objA2.propA = 2;
+        
+        console.log('Expect: interfaceA registered as transient -> ' + (objA1.propA != objA2.propA));
+
+        console.log('Expect: interfaceB of property propB is instanciated inside object objA1 -> ' + (objA1.propB instanceof TestCtorB));
+
+        objA1.doA();
+        objA2.doA();
+        objA3.doA();
+
+        console.log('Expect: interfaceC is instanciated -> ' + (objC instanceof TestCtorC));        
+
+        console.log('Expect: interfaceB registered as singleton -> ' + (objA1.propB.i === 3));
+        
+        console.log('Expect: interfaceC registered as other singleton -> ' + !(objC instanceof TestCtorB));
+
+    };
+    
+</script>
+
+</html>
