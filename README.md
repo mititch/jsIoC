@@ -2,6 +2,7 @@ jsIoC
 =====
 
 IoC container for JavaScript
+-----
 
 How to use:
 
